@@ -2,7 +2,7 @@
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
   "description": "A simple bar chart with embedded data.",
   "data": {
-    "url": "https://gist.githubusercontent.com/traviskaufman/04c418f335b98cdd36d80a5a88cb5f3b/raw/4b26d78441754c3870d74323f91e9a6fab79f087/art-by-station.csv",
+    "url": "https://gist.githubusercontent.com/traviskaufman/04c418f335b98cdd36d80a5a88cb5f3b/raw/dab1c7e977ad5d6a3bd6cabfb13755c3bfc6bade/art-by-station.csv",
     "format": {
       "parse": {
         "date": "utc:%Y-%m-%d",
