@@ -1,0 +1,147 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": 2000,
+  "height": 1800,
+  "view": { "stroke": "transparent" },
+  "layer": [
+    {
+      "data": {
+        "url": "https://gist.githubusercontent.com/traviskaufman/e33677d3dd62d16f9f4c8c08dd290f20/raw/b50e63bc59ea20882651382acdda900d443913d9/nycboroughs.geo.json",
+        "format": { "type": "json", "property": "features" }
+      },
+      "projection": { "type": "albersUsa" },
+      "mark": { "type": "geoshape", "stroke": "grey", "fill": "white" }
+    },
+    {
+      "data": {
+        "url": "https://gist.githubusercontent.com/traviskaufman/e33677d3dd62d16f9f4c8c08dd290f20/raw/29ce804527a0bacbe67099014e066392b39bb077/subways.geo.json",
+        "format": { "type": "json", "property": "features" }
+      },
+      "mark": { "type": "geoshape", "fill": null, "strokeWidth": 2 },
+      "encoding": {
+        "stroke": {
+          "field": "properties.name",
+          "scale": {
+            "domain": [
+              "G",
+              "M",
+              "S",
+              "A",
+              "B-D",
+              "B-D-F-M",
+              "R",
+              "N-Q-R",
+              "N-Q",
+              "N-R",
+              "F",
+              "F-M",
+              "E",
+              "7",
+              "J-Z",
+              "L",
+              "A-C",
+              "D",
+              "1-2-3",
+              "B",
+              "Q",
+              "4-5-6",
+              "N",
+              "1",
+              "N-W",
+              "2-3",
+              "2",
+              "4-5",
+              "5",
+              "4",
+              "3",
+              "A-C-E",
+              "N-Q-R-W",
+              "N-R-W",
+              "6",
+              "R-W"
+            ],
+            "range": [
+              "#6CBE45",
+              "#FF6319",
+              "#808183",
+              "#0039A6",
+              "#FF6319",
+              "#FF6319",
+              "#FCCC0A",
+              "#FCCC0A",
+              "#FCCC0A",
+              "#FCCC0A",
+              "#FF6319",
+              "#FF6319",
+              "#0039A6",
+              "#B933AD",
+              "#996633",
+              "#A7A9AC",
+              "#0039A6",
+              "#FF6319",
+              "#EE352E",
+              "#FF6319",
+              "#FCCC0A",
+              "#00933C",
+              "#FCCC0A",
+              "#EE352E",
+              "#FCCC0A",
+              "#EE352E",
+              "#EE352E",
+              "#00933C",
+              "#00933C",
+              "#00933C",
+              "#EE352E",
+              "#0039A6",
+              "#FCCC0A",
+              "#FCCC0A",
+              "#00933C",
+              "#FCCC0A"
+            ]
+          },
+          "legend": null
+        }
+      }
+    },
+    {
+      "data": {
+        "url": "https://gist.githubusercontent.com/traviskaufman/e33677d3dd62d16f9f4c8c08dd290f20/raw/ad644fbd9ccf45d7c19b69f864dff9ce5e1f414e/art_ridership.csv",
+        "format": {
+          "parse": {
+            "date": "date:%Y-%m-%d",
+            "latitude": "number",
+            "longitude": "number",
+            "num_art_pieces": "number",
+            "ridership": "number"
+          }
+        }
+      },
+      "transform": [
+        { "filter": "year(datum.date) == 2024" },
+        {
+          "joinaggregate": [
+            { "op": "sum", "field": "ridership", "as": "ridership_total" }
+          ],
+          "groupby": ["stop_name", "line", "borough"]
+        }
+      ],
+      "projection": { "type": "albersUsa" },
+      "mark": { "type": "circle", "fill": "white", "stroke": "grey" },
+      "encoding": {
+        "latitude": { "field": "latitude" },
+        "longitude": { "field": "longitude" },
+        "size": { "field": "num_art_pieces", "type": "quantitative" },
+        "tooltip": [
+          { "field": "stop_name", "title": "Stop Name" },
+          { "field": "line", "title": "Lines" },
+          {
+            "field": "ridership_total",
+            "format": ",",
+            "title": "Ridership Total (2024)"
+          },
+          { "field": "num_art_pieces", "title": "Number of Artworks" }
+        ]
+      }
+    }
+  ]
+}

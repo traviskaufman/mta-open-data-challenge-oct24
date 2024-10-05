@@ -2,7 +2,8 @@ WITH
 ss AS (
     SELECT
         "Complex ID",
-        Georeference,
+        "GTFS Latitude",
+        "GTFS Longitude",
         Borough,
         "Stop Name",
         list_reduce(
@@ -59,7 +60,8 @@ ss AS (
         arbitrary(data."Stop Name") AS stop_name,
         arbitrary(data.Borough) AS borough,
         arbitrary(data.station_line) AS line,
-        arbitrary(data.Georeference) AS georeference,
+        arbitrary(data."GTFS Latitude") AS latitude,
+        arbitrary(data."GTFS Longitude") AS longitude,
         SUM(data.num_art_pieces) AS num_art_pieces
     FROM
         data
@@ -85,7 +87,8 @@ SELECT
     ARBITRARY(art_data.stop_name) AS stop_name,
     ARBITRARY(art_data.line) AS line,
     ARBITRARY(art_data.borough) AS borough,
-    ARBITRARY(art_data.georeference) AS georeference,
+    ARBITRARY(art_data.latitude) AS latitude,
+    ARBITRARY(art_data.longitude) AS longitude,
     SUM(art_data.num_art_pieces) AS num_art_pieces,
     ARBITRARY(ridership_data.ridership) AS ridership
 FROM
