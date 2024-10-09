@@ -1,0 +1,144 @@
+{
+  "$schema": "https://vega.github.io/schema/vega/v5.json",
+  "width": 500,
+  "height": 500,
+  "autosize": "fit",
+  "background": "#a2c7e4",
+  "signals": [
+    { "name": "tx", "update": "width / 2" },
+    { "name": "ty", "update": "height / 2" },
+    {
+      "name": "scale",
+      "value": 40000,
+      "on": [
+        {
+          "events": { "type": "wheel", "consume": true },
+          "update": "clamp(scale * pow(1.0005, -event.deltaY * pow(16, event.deltaMode)), 40000, 200000)"
+        }
+      ]
+    },
+    {
+      "name": "angles",
+      "value": [0, 0],
+      "on": [
+        {
+          "events": "pointerdown",
+          "update": "[rotateX, centerY]"
+        }
+      ]
+    },
+    {
+      "name": "cloned",
+      "value": null,
+      "on": [
+        {
+          "events": "pointerdown",
+          "update": "copy('projection')"
+        }
+      ]
+    },
+    {
+      "name": "start",
+      "value": null,
+      "on": [
+        {
+          "events": "pointerdown",
+          "update": "invert(cloned, xy())"
+        }
+      ]
+    },
+    {
+      "name": "drag",
+      "value": null,
+      "on": [
+        {
+          "events": "[pointerdown, window:pointerup] > window:pointermove",
+          "update": "invert(cloned, xy())"
+        }
+      ]
+    },
+    {
+      "name": "delta",
+      "value": null,
+      "on": [
+        {
+          "events": { "signal": "drag" },
+          "update": "[drag[0] - start[0], start[1] - drag[1]]"
+        }
+      ]
+    },
+    {
+      "name": "rotateX",
+      "value": 0,
+      "on": [
+        {
+          "events": { "signal": "delta" },
+          "update": "angles[0] + delta[0]"
+        }
+      ]
+    },
+    {
+      "name": "centerY",
+      "value": 40.7,
+      "on": [
+        {
+          "events": { "signal": "delta" },
+          "update": "clamp(angles[1] + delta[1], -60, 60)"
+        }
+      ]
+    }
+  ],
+  "projections": [
+    {
+      "name": "projection",
+      "type": "mercator",
+      "rotate": [{ "signal": "rotateX" }, 0, 0],
+      "scale": { "signal": "scale" },
+      "center": [-73.94, { "signal": "centerY" }],
+      "translate": [{ "signal": "tx" }, { "signal": "ty" }]
+    }
+  ],
+  "data": [
+    {
+      "name": "boroughs",
+      "url": "https://gist.githubusercontent.com/traviskaufman/e33677d3dd62d16f9f4c8c08dd290f20/raw/b50e63bc59ea20882651382acdda900d443913d9/nycboroughs.geo.json",
+      "format": { "type": "json", "property": "features" }
+    },
+    {
+      "name": "subway_lines",
+      "url": "https://gist.githubusercontent.com/traviskaufman/e33677d3dd62d16f9f4c8c08dd290f20/raw/29ce804527a0bacbe67099014e066392b39bb077/subways.geo.json",
+      "format": { "type": "json", "property": "features" }
+    },
+    {
+      "name": "art_ridership",
+      "url": "https://gist.githubusercontent.com/traviskaufman/e33677d3dd62d16f9f4c8c08dd290f20/raw/ad644fbd9ccf45d7c19b69f864dff9ce5e1f414e/art_ridership.csv",
+      "format": {
+        "parse": {
+          "date": "date:%Y-%m-%d",
+          "latitude": "number",
+          "longitude": "number",
+          "num_art_pieces": "number",
+          "ridership": "number"
+        }
+      }
+    }
+  ],
+  "marks": [
+    {
+      "type": "shape",
+      "from": { "data": "boroughs" },
+      "encode": {
+        "enter": {
+          "fill": { "value": "#fbefe2" },
+          "stroke": { "value": "#aaa" }
+        }
+      },
+      "transform": [
+        {
+          "type": "geoshape",
+          "projection": "projection"
+        }
+      ]
+    }
+  ]
+}
