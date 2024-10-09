@@ -20,32 +20,17 @@
     {
       "name": "angles",
       "value": [0, 0],
-      "on": [
-        {
-          "events": "pointerdown",
-          "update": "[rotateX, centerY]"
-        }
-      ]
+      "on": [{ "events": "pointerdown", "update": "[rotateX, centerY]" }]
     },
     {
       "name": "cloned",
       "value": null,
-      "on": [
-        {
-          "events": "pointerdown",
-          "update": "copy('projection')"
-        }
-      ]
+      "on": [{ "events": "pointerdown", "update": "copy('projection')" }]
     },
     {
       "name": "start",
       "value": null,
-      "on": [
-        {
-          "events": "pointerdown",
-          "update": "invert(cloned, xy())"
-        }
-      ]
+      "on": [{ "events": "pointerdown", "update": "invert(cloned, xy())" }]
     },
     {
       "name": "drag",
@@ -71,10 +56,7 @@
       "name": "rotateX",
       "value": 0,
       "on": [
-        {
-          "events": { "signal": "delta" },
-          "update": "angles[0] + delta[0]"
-        }
+        { "events": { "signal": "delta" }, "update": "angles[0] + delta[0]" }
       ]
     },
     {
@@ -113,6 +95,7 @@
       "name": "art_ridership",
       "url": "https://gist.githubusercontent.com/traviskaufman/e33677d3dd62d16f9f4c8c08dd290f20/raw/ad644fbd9ccf45d7c19b69f864dff9ce5e1f414e/art_ridership.csv",
       "format": {
+        "type": "csv",
         "parse": {
           "date": "date:%Y-%m-%d",
           "latitude": "number",
@@ -120,7 +103,22 @@
           "num_art_pieces": "number",
           "ridership": "number"
         }
-      }
+      },
+      "transform": [
+        { "type": "filter", "expr": "year(datum.date) == 2024" },
+        {
+          "type": "geopoint",
+          "projection": "projection",
+          "fields": ["longitude", "latitude"]
+        },
+        {
+          "type": "joinaggregate",
+          "fields": ["ridership"],
+          "ops": ["sum"],
+          "as": ["ridership_total"],
+          "groupby": ["stop_name", "line", "borough"]
+        }
+      ]
     }
   ],
   "scales": [
@@ -203,6 +201,29 @@
         "#00933C",
         "#FCCC0A"
       ]
+    },
+    {
+      "name": "ridership_size",
+      "type": "linear",
+      "domain": { "data": "art_ridership", "field": "ridership_total" },
+      "range": [25, 500]
+    },
+    {
+      "name": "art_presence_color",
+      "type": "threshold",
+      "domain": [1, 2],
+      "range": { "scheme": "redblue" }
+    }
+  ],
+  "legends": [
+    {
+      "type": "symbol",
+      "fill": "art_presence_color",
+      "title": "Number of Artworks",
+      "padding": 4,
+      "fillColor": "#ddd",
+      "strokeColor": "black",
+      "orient": "bottom-right"
     }
   ],
   "marks": [
@@ -216,12 +237,7 @@
           "stroke": { "value": "#aaa" }
         }
       },
-      "transform": [
-        {
-          "type": "geoshape",
-          "projection": "projection"
-        }
-      ]
+      "transform": [{ "type": "geoshape", "projection": "projection" }]
     },
     {
       "name": "Subway Lines",
@@ -230,18 +246,33 @@
       "encode": {
         "enter": {
           "fill": { "value": null },
-          "stroke": {
-            "scale": "Subway Colors",
-            "field": "properties.name"
-          }
+          "stroke": { "scale": "Subway Colors", "field": "properties.name" }
         }
       },
-      "transform": [
-        {
-          "type": "geoshape",
-          "projection": "projection"
-        }
-      ]
+      "transform": [{ "type": "geoshape", "projection": "projection" }]
+    },
+    {
+      "name": "Art Ridership Symbols",
+      "type": "symbol",
+      "from": { "data": "art_ridership" },
+      "encode": {
+        "enter": {
+          "stroke": { "value": "#666" },
+          "strokeWidth": { "value": 1 },
+          "tooltip": {
+            "signal": "{'title': datum.stop_name, 'Lines': datum.line, 'Ridership Total (2024)': format(datum.ridership, ','), 'Number of Artworks': datum.num_art_pieces}"
+          },
+          "fill": {
+            "field": "num_art_pieces",
+            "scale": "art_presence_color"
+          },
+          "size": {
+            "field": "ridership_total",
+            "scale": "ridership_size"
+          }
+        },
+        "update": { "x": { "field": "x" }, "y": { "field": "y" } }
+      }
     }
   ]
 }
