@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MTA Open Data Challenge 2024</title>
+  <style>
+    html, body {
+      height: 100vh;
+    }
+
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    main {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex: 1;
+    }
+
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border-width: 0;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Which Stations Need Art?</h1>
+  </header>
+  <main>
+    <div id="vis"></div>
+    <p class="sr-only">A Visualization of a Map of New York City, showing each subway station and its size relative to ridership in 2024, as well as whether or not it has any artwork</p>
+  </main>
+  <footer>
+    <p>Created by Ilana Sufrin &amp; Travis Kaufman</p>
+  </footer>
+  <script type="module" src="index.js"></script>
+</body>
+</html>

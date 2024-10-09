@@ -1,0 +1,26 @@
+{
+  "name": "mta-open-data-challenge-sep24",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "dev": "vite",
+    "prestart": "vite build",
+    "start": "vite preview"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/traviskaufman/mta-open-data-challenge-oct24.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/traviskaufman/mta-open-data-challenge-oct24/issues"
+  },
+  "homepage": "https://github.com/traviskaufman/mta-open-data-challenge-oct24#readme",
+  "devDependencies": {
+    "vega": "^5.30.0",
+    "vega-embed": "^6.26.0",
+    "vite": "^5.4.8"
+  }
+}
