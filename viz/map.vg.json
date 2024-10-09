@@ -123,14 +123,117 @@
       }
     }
   ],
+  "scales": [
+    {
+      "name": "Subway Colors",
+      "type": "ordinal",
+      "domain": [
+        "G",
+        "M",
+        "S",
+        "A",
+        "B-D",
+        "B-D-F-M",
+        "R",
+        "N-Q-R",
+        "N-Q",
+        "N-R",
+        "F",
+        "F-M",
+        "E",
+        "7",
+        "J-Z",
+        "L",
+        "A-C",
+        "D",
+        "1-2-3",
+        "B",
+        "Q",
+        "4-5-6",
+        "N",
+        "1",
+        "N-W",
+        "2-3",
+        "2",
+        "4-5",
+        "5",
+        "4",
+        "3",
+        "A-C-E",
+        "N-Q-R-W",
+        "N-R-W",
+        "6",
+        "R-W"
+      ],
+      "range": [
+        "#6CBE45",
+        "#FF6319",
+        "#808183",
+        "#0039A6",
+        "#FF6319",
+        "#FF6319",
+        "#FCCC0A",
+        "#FCCC0A",
+        "#FCCC0A",
+        "#FCCC0A",
+        "#FF6319",
+        "#FF6319",
+        "#0039A6",
+        "#B933AD",
+        "#996633",
+        "#A7A9AC",
+        "#0039A6",
+        "#FF6319",
+        "#EE352E",
+        "#FF6319",
+        "#FCCC0A",
+        "#00933C",
+        "#FCCC0A",
+        "#EE352E",
+        "#FCCC0A",
+        "#EE352E",
+        "#EE352E",
+        "#00933C",
+        "#00933C",
+        "#00933C",
+        "#EE352E",
+        "#0039A6",
+        "#FCCC0A",
+        "#FCCC0A",
+        "#00933C",
+        "#FCCC0A"
+      ]
+    }
+  ],
   "marks": [
     {
+      "name": "Boroughs",
       "type": "shape",
       "from": { "data": "boroughs" },
       "encode": {
         "enter": {
           "fill": { "value": "#fbefe2" },
           "stroke": { "value": "#aaa" }
+        }
+      },
+      "transform": [
+        {
+          "type": "geoshape",
+          "projection": "projection"
+        }
+      ]
+    },
+    {
+      "name": "Subway Lines",
+      "type": "shape",
+      "from": { "data": "subway_lines" },
+      "encode": {
+        "enter": {
+          "fill": { "value": null },
+          "stroke": {
+            "scale": "Subway Colors",
+            "field": "properties.name"
+          }
         }
       },
       "transform": [
