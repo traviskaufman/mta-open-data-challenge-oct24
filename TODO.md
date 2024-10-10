@@ -1,0 +1,3 @@
+- [ ] Pinch to zoom
+- [ ] Add insights as right-side column
+- [ ] Add legend for ridership size
