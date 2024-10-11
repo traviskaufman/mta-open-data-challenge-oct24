@@ -228,7 +228,7 @@
     {
       "type": "symbol",
       "size": "ridership_size",
-      "title": "Ridership",
+      "title": "Ridership in 2024",
       "padding": 4,
       "fillColor": "white",
       "strokeColor": "black",

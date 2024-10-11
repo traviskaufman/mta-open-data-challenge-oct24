@@ -1,3 +1,4 @@
 - [ ] Pinch to zoom
 - [ ] Add insights as right-side column
-- [ ] Add legend for ridership size
+- [x] Add legend for ridership size
+- [ ] 14-St Union Sq missing for 4 5 6
