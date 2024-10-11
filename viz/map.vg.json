@@ -93,7 +93,7 @@
     },
     {
       "name": "art_ridership",
-      "url": "https://gist.githubusercontent.com/traviskaufman/e33677d3dd62d16f9f4c8c08dd290f20/raw/ad644fbd9ccf45d7c19b69f864dff9ce5e1f414e/art_ridership.csv",
+      "url": "https://gist.githubusercontent.com/traviskaufman/e33677d3dd62d16f9f4c8c08dd290f20/raw/d057f93b6c7f5191b6cd77ebb009a4de28883fc4/art_ridership_v2.csv",
       "format": {
         "type": "csv",
         "parse": {

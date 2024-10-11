@@ -57,16 +57,16 @@ ss AS (
     SELECT
         data."Complex ID" AS complex_id,
         strptime(CAST(data."Art Date" AS text), '%Y') AS year_first_displayed,
-        arbitrary(data."Stop Name") AS stop_name,
-        arbitrary(data.Borough) AS borough,
-        arbitrary(data.station_line) AS line,
+        data."Stop Name" AS stop_name,
+        data.Borough AS borough,
+        data.station_line AS line,
         arbitrary(data."GTFS Latitude") AS latitude,
         arbitrary(data."GTFS Longitude") AS longitude,
         SUM(data.num_art_pieces) AS num_art_pieces
     FROM
         data
     GROUP BY
-        1, 2
+        1, 2, 3, 4, 5
 )
 , ridership_data AS (
     SELECT
@@ -84,9 +84,9 @@ ss AS (
 SELECT
     ridership_data."date" AS "date",
     art_data.complex_id AS complex_id,
-    ARBITRARY(art_data.stop_name) AS stop_name,
-    ARBITRARY(art_data.line) AS line,
-    ARBITRARY(art_data.borough) AS borough,
+    art_data.stop_name AS stop_name,
+    art_data.line AS line,
+    art_data.borough AS borough,
     ARBITRARY(art_data.latitude) AS latitude,
     ARBITRARY(art_data.longitude) AS longitude,
     SUM(art_data.num_art_pieces) AS num_art_pieces,
@@ -99,7 +99,7 @@ JOIN
         AND (art_data.year_first_displayed IS NULL OR ridership_data."date" >= art_data.year_first_displayed)
     )
 GROUP BY
-    1,2
+    1,2,3,4,5
 ORDER BY
   "date" DESC,
   num_art_pieces DESC,
