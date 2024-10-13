@@ -1,7 +1,9 @@
+P0
+
 - [ ] Pinch to zoom
 - [ ] Add ratio chart
 - [ ] Fix resizing issues
-- [ ] Take legend out of projection
+- [ ] Fix Legends Take legend out of projection
 - Re add legends
   "legends": [
   {
@@ -25,6 +27,15 @@
   "zindex": 100
   }
   ],
-- [x] Add insights as right-side column
-- [x] Add legend for ridership size
-- [x] 14-St Union Sq missing for 4 5 6
+- [ ] Recenter map to emphasize Manhattan
+- [ ] Better overall page design
+
+P1
+
+- [ ] Link artwork
+- [ ] Better borough legend labels in Insights Chart
+
+P2
+
+- [ ] Reconcile multiple stations
+- [ ] Add more city-like features to the map

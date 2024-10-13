@@ -61,7 +61,7 @@
     },
     {
       "name": "centerY",
-      "value": 40.7,
+      "value": 40.7128,
       "on": [
         {
           "events": { "signal": "delta" },
@@ -76,7 +76,7 @@
       "type": "mercator",
       "rotate": [{ "signal": "rotateX" }, 0, 0],
       "scale": { "signal": "scale" },
-      "center": [-73.94, { "signal": "centerY" }],
+      "center": [-73.9906, { "signal": "centerY" }],
       "translate": [{ "signal": "tx" }, { "signal": "ty" }]
     }
   ],
