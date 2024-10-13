@@ -1,0 +1,98 @@
+{
+  "$schema": "https://vega.github.io/schema/vega/v5.json",
+  "width": 500,
+  "height": 500,
+  "title": "Busiest stations with no art, by ridership",
+  "autosize": "fit",
+  "data": [
+    {
+      "name": "art_ridership",
+      "url": "https://gist.githubusercontent.com/traviskaufman/e33677d3dd62d16f9f4c8c08dd290f20/raw/d057f93b6c7f5191b6cd77ebb009a4de28883fc4/art_ridership_v2.csv",
+      "format": {
+        "type": "csv",
+        "parse": {
+          "date": "date:%Y-%m-%d",
+          "latitude": "number",
+          "longitude": "number",
+          "num_art_pieces": "number",
+          "ridership": "number"
+        },
+        "delimiter": ","
+      },
+      "transform": [
+        { "type": "filter", "expr": "year(datum.date) == 2024" },
+        {
+          "type": "joinaggregate",
+          "fields": ["ridership"],
+          "ops": ["sum"],
+          "as": ["ridership_total"],
+          "groupby": ["stop_name", "line", "borough"]
+        }
+      ]
+    },
+    {
+      "name": "top5_needing_art",
+      "source": "art_ridership",
+      "transform": [
+        { "type": "filter", "expr": "datum.num_art_pieces == 0" },
+        {
+          "type": "window",
+          "ops": ["row_number"],
+          "as": ["rank"],
+          "sort": { "field": "ratio", "order": "descending" }
+        },
+        { "type": "filter", "expr": "datum.rank <= 5" }
+      ]
+    }
+  ],
+  "scales": [
+    {
+      "name": "yscale",
+      "type": "band",
+      "domain": { "data": "top5_needing_art", "field": "stop_name" },
+      "range": "height",
+      "padding": 0.2,
+      "round": true
+    },
+    {
+      "name": "xscale",
+      "type": "linear",
+      "domain": { "data": "top5_needing_art", "field": "ridership_total" },
+      "range": "width",
+      "nice": true,
+      "round": true
+    },
+    {
+      "name": "color",
+      "type": "ordinal",
+      "domain": { "data": "top5_needing_art", "field": "borough" },
+      "range": { "scheme": "category10" }
+    }
+  ],
+  "axes": [
+    { "orient": "left", "scale": "yscale" },
+    { "orient": "bottom", "scale": "xscale", "format": "s" }
+  ],
+  "legends": [
+    { "fill": "color", "title": "Borough", "orient": "bottom-right" }
+  ],
+  "marks": [
+    {
+      "name": "Bars",
+      "type": "rect",
+      "from": { "data": "top5_needing_art" },
+      "encode": {
+        "enter": {
+          "y": { "scale": "yscale", "field": "stop_name" },
+          "height": { "scale": "yscale", "band": 1 },
+          "fill": { "scale": "color", "field": "borough" },
+          "x": { "scale": "xscale", "value": 0 },
+          "x2": { "scale": "xscale", "field": "ridership_total" },
+          "tooltip": {
+            "signal": "{'title': datum.stop_name, 'Borough': datum.borough, 'Ridership': format(datum.ridership_total, ',')}"
+          }
+        }
+      }
+    }
+  ]
+}

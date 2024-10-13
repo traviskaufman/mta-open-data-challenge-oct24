@@ -1,18 +1,27 @@
 import vegaEmbed from "vega-embed";
-import spec from "./viz/map.vg.json";
+import mapSpec from "./viz/map.vg.json";
+import insightsSpec from "./viz/insights.vg.json";
 
 async function main() {
-  const res = await vegaEmbed("#vis", spec);
-  const element = document.querySelector("#vis");
-  const resizeObserver = new ResizeObserver(async ([entry]) => {
+  const vizzes = await Promise.all([
+    vegaEmbed("#map", mapSpec),
+    vegaEmbed("#insights", insightsSpec),
+  ]);
+  const elements = [
+    document.querySelector("#vis"),
+    document.querySelector("#insights"),
+  ];
+  const resizeObserver = new ResizeObserver(([entry]) => {
     const { width, height } = entry.contentRect;
-    await res.view
-      .width(width - 8)
-      .height(height - 8)
-      .runAsync();
+    for (const viz of vizzes) {
+      viz.view
+        .width(width - 8)
+        .height(height - 8)
+        .run();
+    }
   });
 
-  resizeObserver.observe(element);
+  elements.forEach((element) => resizeObserver.observe(element));
 }
 
 main().catch(console.error.bind(console));

@@ -1,6 +1,6 @@
 {
   "$schema": "https://vega.github.io/schema/vega/v5.json",
-  "width": 500,
+  "width": 800,
   "height": 500,
   "autosize": "fit",
   "background": "#a2c7e4",
@@ -9,7 +9,7 @@
     { "name": "ty", "update": "height / 2" },
     {
       "name": "scale",
-      "value": 40000,
+      "value": 160000,
       "on": [
         {
           "events": { "type": "wheel", "consume": true },
@@ -213,26 +213,6 @@
       "type": "threshold",
       "domain": [1, 2],
       "range": { "scheme": "redblue" }
-    }
-  ],
-  "legends": [
-    {
-      "type": "symbol",
-      "fill": "art_presence_color",
-      "title": "Number of Artworks",
-      "padding": 4,
-      "fillColor": "#ddd",
-      "strokeColor": "black",
-      "orient": "left"
-    },
-    {
-      "type": "symbol",
-      "size": "ridership_size",
-      "title": "Ridership in 2024",
-      "padding": 4,
-      "fillColor": "white",
-      "strokeColor": "black",
-      "orient": "left"
     }
   ],
   "marks": [
