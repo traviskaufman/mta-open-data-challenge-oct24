@@ -1,7 +1,6 @@
 P0
 
-- [ ] Pinch to zoom
-- [ ] Add ratio chart
+- [ ] Fixup new map
 - [ ] Fix resizing issues
 - [ ] Fix Legends Take legend out of projection
 - Re add legends

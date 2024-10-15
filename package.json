@@ -19,8 +19,11 @@
   },
   "homepage": "https://github.com/traviskaufman/mta-open-data-challenge-oct24#readme",
   "devDependencies": {
+    "leaflet": "^1.9.4",
+    "leaflet-vega": "^0.9.0",
     "vega": "^5.30.0",
     "vega-embed": "^6.26.0",
+    "vega-spec-injector": "^0.0.2",
     "vite": "^5.4.8"
   }
 }
