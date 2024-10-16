@@ -147,7 +147,11 @@ async function main() {
         map.on(this.options.delayRepaint ? "moveend" : "move", () =>
           this._resetAsync()
         );
-        map.on("zoomend", () => this._resetAsync());
+        map.on("zoomstart", () => (this._vegaContainer.style.opacity = 0));
+        map.on("zoomend", () => {
+          this._vegaContainer.style.opacity = 1;
+          this._resetAsync();
+        });
 
         /**
          * Given longitude/latitude/zoom or bounding box, position the map to those coordinates
@@ -344,16 +348,15 @@ async function main() {
     },
   });
 
-  const map = L.map("map").setView([40.7128, -74.0059], 4);
+  const ilanasPreferredCoordinates = [40.71942043681214, -73.95618438720705];
+  const map = L.map("map").setView(ilanasPreferredCoordinates, 12);
 
   L.tileLayer("https://maps.wikimedia.org/osm-intl/{z}/{x}/{y}.png", {
     attribution:
       '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
   }).addTo(map);
 
-  const layer = L.vega(mapSpec, {
-    delayRepaint: false,
-  });
+  const layer = L.vega(mapSpec, {});
 
   layer.addTo(map);
 

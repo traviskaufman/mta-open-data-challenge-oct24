@@ -1,8 +1,10 @@
 P0
 
 - [ ] Fixup new map
-- [ ] Fix resizing issues
-- [ ] Fix Legends Take legend out of projection
+  - [ ] Make very nice on zoom
+  - [ ] Add on new tooltip
+  - [ ] Add legends
+  - [x] Recenter map to emphasize Manhattan
 - Re add legends
   "legends": [
   {
@@ -26,7 +28,6 @@ P0
   "zindex": 100
   }
   ],
-- [ ] Recenter map to emphasize Manhattan
 - [ ] Better overall page design
 
 P1

@@ -3,7 +3,6 @@
   "width": 800,
   "height": 500,
   "autosize": "fit",
-  "background": "#a2c7e4",
   "data": [
     {
       "name": "boroughs",
@@ -146,7 +145,6 @@
       "from": { "data": "boroughs" },
       "encode": {
         "enter": {
-          "fill": { "value": "#fbefe2" },
           "stroke": { "value": "#aaa" }
         }
       },
