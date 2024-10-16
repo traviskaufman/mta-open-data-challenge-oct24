@@ -2,7 +2,9 @@ import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 import * as vega from "vega";
 import vegaEmbed from "vega-embed";
+import vegaTooltip from "vega-tooltip";
 import Vsi from "vega-spec-injector";
+import debounce from "debounce";
 
 import mapSpec from "./viz/map.vg.json";
 import insightsSpec from "./viz/insights.vg.json";
@@ -136,6 +138,7 @@ async function main() {
           })
           .initialize(this._vegaContainer, this.options.bindingsContainer)
           .hover();
+        vegaTooltip(this._view);
 
         const onSignal = (sig, value) => this._onSignalChange(sig, value);
 
@@ -147,10 +150,17 @@ async function main() {
         map.on(this.options.delayRepaint ? "moveend" : "move", () =>
           this._resetAsync()
         );
-        map.on("zoomstart", () => (this._vegaContainer.style.opacity = 0));
+        const showDebounced = debounce(
+          () => (this._vegaContainer.style.opacity = 1),
+          100
+        );
+        map.on("zoomstart", () => {
+          showDebounced.clear();
+          this._vegaContainer.style.opacity = 0;
+        });
         map.on("zoomend", () => {
-          this._vegaContainer.style.opacity = 1;
           this._resetAsync();
+          showDebounced();
         });
 
         /**

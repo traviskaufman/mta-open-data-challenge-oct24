@@ -157,6 +157,7 @@
       "encode": {
         "enter": {
           "fill": { "value": null },
+          "strokeWidth": { "value": 2 },
           "stroke": { "scale": "Subway Colors", "field": "properties.name" }
         }
       },

@@ -1,8 +1,8 @@
 P0
 
 - [ ] Fixup new map
-  - [ ] Make very nice on zoom
-  - [ ] Add on new tooltip
+  - [x] Make very nice on zoom
+  - [x] Add on new tooltip
   - [ ] Add legends
   - [x] Recenter map to emphasize Manhattan
 - Re add legends
