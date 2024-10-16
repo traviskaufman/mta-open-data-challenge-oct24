@@ -138,6 +138,28 @@
       "range": { "scheme": "redblue" }
     }
   ],
+  "legends": [
+    {
+      "type": "symbol",
+      "fill": "art_presence_color",
+      "title": "Number of Artworks",
+      "padding": 4,
+      "fillColor": "#ddd",
+      "strokeColor": "black",
+      "orient": "bottom-right",
+      "zindex": 0
+    },
+    {
+      "type": "symbol",
+      "size": "ridership_size",
+      "title": "Ridership in 2024",
+      "padding": 4,
+      "fillColor": "white",
+      "strokeColor": "black",
+      "orient": "bottom-right",
+      "zindex": 100
+    }
+  ],
   "marks": [
     {
       "name": "Boroughs",
