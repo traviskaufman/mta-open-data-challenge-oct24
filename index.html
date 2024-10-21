@@ -6,10 +6,6 @@
   <title>MTA Open Data Challenge 2024</title>
   <link rel="stylesheet" href="index.css">
   <style>
-    .insight {
-      margin-right: 16px;
-    }
-
     .leaflet-vega-container {
       transition: opacity 85ms ease;
     }
@@ -32,7 +28,7 @@
           </div>
         </div>
       </header>
-      <aside class="-ml-12 -mt-12 lg:top-4 lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:overflow-hidden">
+      <aside class="-ml-12 -mt-12 lg:sticky lg:top-4 lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:overflow-hidden">
         <div id="map" class="h-[500px]"></div>
         <p class="sr-only">A Visualization of a Map of New York City, showing each subway station and its size relative to ridership in 2024, as well as whether or not it has any artwork</p>
       </aside>
@@ -44,8 +40,8 @@
           </div>
         </div>
       </article>
-      <section class="lg:col-span-2 lg:row-start-3 lg:col-start-1 lg:ps-16 insights-section">
-        <div id="insights" class="insight"></div>
+      <section class="lg:row-start-3 lg:col-start-1 lg:ps-16 flex flex-col gap-1">
+        <div id="insights"></div>
         <p class="sr-only">A bar chart showing the top 5 stations by Ridership with No Art</p>
         <div id="insights2"></div>
         <p class="sr-only">A bar chart showing the top 5 stations by the lowest art / ridershp ratio</p>
