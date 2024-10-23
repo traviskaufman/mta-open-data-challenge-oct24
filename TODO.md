@@ -1,11 +1,7 @@
-P0
-
-- [ ] Better overall page design
-
-P1
-
 - [ ] Link artwork
-- [ ] Better borough legend labels in Insights Chart
+- [x] Change orange/white/blue color scheme for art ranges to red/yellow/green
+- [x] Work with ilana on design. Stack graphs vertically and shrink them.
+- [ ] Attribute data.
 
 P2
 

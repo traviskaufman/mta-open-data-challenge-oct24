@@ -11,6 +11,7 @@ import insightsSpec from "./viz/insights.vg.json";
 import insights2Spec from "./viz/insights2.vg.json";
 
 async function main() {
+  // See: https://github.com/nyurik/leaflet-vega/blob/main/src/VegaLayer.js
   L.vega = function vega(spec, options) {
     return new L.VegaLayer(spec, options);
   };

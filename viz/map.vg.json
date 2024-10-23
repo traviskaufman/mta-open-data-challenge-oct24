@@ -135,7 +135,7 @@
       "name": "art_presence_color",
       "type": "threshold",
       "domain": [1, 2],
-      "range": { "scheme": "redblue" }
+      "range": { "scheme": "redyellowgreen" }
     }
   ],
   "legends": [
@@ -144,7 +144,7 @@
       "fill": "art_presence_color",
       "title": "Number of Artworks",
       "padding": 4,
-      "fillColor": "#ddd",
+      "fillColor": "#ccc",
       "strokeColor": "black",
       "orient": "bottom-right",
       "zindex": 0
@@ -194,7 +194,7 @@
           "stroke": { "value": "#666" },
           "strokeWidth": { "value": 1 },
           "tooltip": {
-            "signal": "{'title': datum.stop_name, 'Lines': datum.line, 'Ridership Total (2024)': format(datum.ridership_total, ','), 'Number of Artworks': datum.num_art_pieces}"
+            "signal": "{'title': datum.stop_name, 'Lines': datum.line, 'Complex ID': datum.complex_id, 'Ridership Total (2024)': format(datum.ridership_total, ','), 'Number of Artworks': datum.num_art_pieces}"
           },
           "fill": {
             "field": "num_art_pieces",
