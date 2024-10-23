@@ -16,7 +16,7 @@
     },
     {
       "name": "art_ridership",
-      "url": "https://gist.githubusercontent.com/traviskaufman/e33677d3dd62d16f9f4c8c08dd290f20/raw/d057f93b6c7f5191b6cd77ebb009a4de28883fc4/art_ridership_v2.csv",
+      "url": "https://gist.githubusercontent.com/traviskaufman/e33677d3dd62d16f9f4c8c08dd290f20/raw/a9a8a982b3d617cd7acbf3cf1e35deb2422508be/art_ridership.csv",
       "format": {
         "type": "csv",
         "parse": {
@@ -194,7 +194,7 @@
           "stroke": { "value": "#666" },
           "strokeWidth": { "value": 1 },
           "tooltip": {
-            "signal": "{'title': datum.stop_name, 'Lines': datum.line, 'Complex ID': datum.complex_id, 'Ridership Total (2024)': format(datum.ridership_total, ','), 'Number of Artworks': datum.num_art_pieces}"
+            "signal": "{'title': datum.stop_name, 'Lines': datum.line, 'Complex': datum.complex_name, 'Ridership Total (2024)': format(datum.ridership_total, ','), 'Number of Artworks': datum.num_art_pieces}"
           },
           "fill": {
             "field": "num_art_pieces",

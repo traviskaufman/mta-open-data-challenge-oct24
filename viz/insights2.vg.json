@@ -1,13 +1,13 @@
 {
   "$schema": "https://vega.github.io/schema/vega/v5.json",
-  "width": 400,
+  "width": 500,
   "height": 200,
-  "title": "Stations with lowest artworks per rider",
+  "title": "Stations with highest riders per artwork",
   "autosize": "fit",
   "data": [
     {
       "name": "art_ridership",
-      "url": "https://gist.githubusercontent.com/traviskaufman/e33677d3dd62d16f9f4c8c08dd290f20/raw/d057f93b6c7f5191b6cd77ebb009a4de28883fc4/art_ridership_v2.csv",
+      "url": "https://gist.githubusercontent.com/traviskaufman/e33677d3dd62d16f9f4c8c08dd290f20/raw/a9a8a982b3d617cd7acbf3cf1e35deb2422508be/art_ridership.csv",
       "format": {
         "type": "csv",
         "parse": {
@@ -25,8 +25,21 @@
           "type": "aggregate",
           "fields": ["ridership", "num_art_pieces"],
           "ops": ["sum", "max"],
+          "as": ["ridership_total_per_stop", "art_pieces_per_stop"],
+          "groupby": [
+            "complex_id",
+            "complex_name",
+            "stop_name",
+            "line",
+            "borough"
+          ]
+        },
+        {
+          "type": "aggregate",
+          "fields": ["ridership_total_per_stop", "art_pieces_per_stop"],
+          "ops": ["max", "sum"],
           "as": ["ridership_total", "latest_num_art_pieces"],
-          "groupby": ["complex_id", "stop_name", "borough"]
+          "groupby": ["complex_id", "complex_name", "borough"]
         }
       ]
     },
@@ -56,7 +69,7 @@
       "type": "band",
       "domain": {
         "data": "top5_needing_art",
-        "field": "stop_name",
+        "field": "complex_name",
         "sort": {
           "field": "ratio",
           "order": "descending",
@@ -96,13 +109,13 @@
       "from": { "data": "top5_needing_art" },
       "encode": {
         "enter": {
-          "y": { "scale": "yscale", "field": "stop_name" },
+          "y": { "scale": "yscale", "field": "complex_name" },
           "height": { "scale": "yscale", "band": 1 },
           "fill": { "scale": "color", "field": "borough" },
           "x": { "scale": "xscale", "value": 0 },
           "x2": { "scale": "xscale", "field": "ratio" },
           "tooltip": {
-            "signal": "{'title': datum.stop_name, 'Borough': datum.borough, 'Ridership': format(datum.ridership_total, ','), 'Number of Artworks': datum.latest_num_art_pieces, 'Riders per artwork': format(datum.ratio, ',.2f')}"
+            "signal": "{'title': datum.complex_name, 'Borough': datum.borough, 'Ridership': format(datum.ridership_total, ','), 'Number of Artworks': datum.latest_num_art_pieces, 'Riders per artwork': format(datum.ratio, ',.2f')}"
           }
         }
       }
