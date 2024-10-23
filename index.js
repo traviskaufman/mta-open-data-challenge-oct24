@@ -9,8 +9,20 @@ import debounce from "debounce";
 import mapSpec from "./viz/map.vg.json";
 import insightsSpec from "./viz/insights.vg.json";
 import insights2Spec from "./viz/insights2.vg.json";
+import { register } from "register-service-worker";
 
-async function main() {
+function main() {
+  return new Promise((resolve) =>
+    register("/service-worker.js", {
+      ready: async () => {
+        await init();
+        resolve();
+      },
+    })
+  );
+}
+
+async function init() {
   // See: https://github.com/nyurik/leaflet-vega/blob/main/src/VegaLayer.js
   L.vega = function vega(spec, options) {
     return new L.VegaLayer(spec, options);
