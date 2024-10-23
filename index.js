@@ -9,20 +9,8 @@ import debounce from "debounce";
 import mapSpec from "./viz/map.vg.json";
 import insightsSpec from "./viz/insights.vg.json";
 import insights2Spec from "./viz/insights2.vg.json";
-import { register } from "register-service-worker";
 
-function main() {
-  return new Promise((resolve) =>
-    register("/service-worker.js", {
-      ready: async () => {
-        await init();
-        resolve();
-      },
-    })
-  );
-}
-
-async function init() {
+async function main() {
   // See: https://github.com/nyurik/leaflet-vega/blob/main/src/VegaLayer.js
   L.vega = function vega(spec, options) {
     return new L.VegaLayer(spec, options);
@@ -374,7 +362,7 @@ async function init() {
   const ilanasPreferredCoordinates = [40.71942043681214, -73.95618438720705];
   const map = L.map("map").setView(ilanasPreferredCoordinates, 12);
 
-  L.tileLayer("https://maps.wikimedia.org/osm-intl/{z}/{x}/{y}.png", {
+  L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
     attribution:
       '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
   }).addTo(map);
