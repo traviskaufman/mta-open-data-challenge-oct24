@@ -72,7 +72,7 @@ ss AS (
     SELECT
         "date",
         station_complex_id,
-        ARBITRARY(station_complex),
+        ARBITRARY(station_complex) AS station_complex,
         ARBITRARY(borough),
         SUM(ridership) AS ridership,
         SUM(transfers) AS transfers
@@ -83,7 +83,8 @@ ss AS (
 )
 SELECT
     ridership_data."date" AS "date",
-    art_data.complex_id AS complex_id,
+    ridership_data.station_complex_id AS complex_id,
+    ridership_data.station_complex AS complex_name,
     art_data.stop_name AS stop_name,
     art_data.line AS line,
     art_data.borough AS borough,
@@ -99,7 +100,7 @@ JOIN
         AND (art_data.year_first_displayed IS NULL OR ridership_data."date" >= art_data.year_first_displayed)
     )
 GROUP BY
-    1,2,3,4,5
+    1,2,3,4,5,6
 ORDER BY
   "date" DESC,
   num_art_pieces DESC,
