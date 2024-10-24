@@ -40,6 +40,11 @@
           "ops": ["sum"],
           "as": ["ridership_total"],
           "groupby": ["stop_name", "line", "borough"]
+        },
+        {
+          "type": "formula",
+          "expr": "datum.num_art_pieces == 0 ? '0' : datum.num_art_pieces < 2 ? '1' : '2 or more'",
+          "as": "art_presence"
         }
       ]
     }
@@ -133,8 +138,8 @@
     },
     {
       "name": "art_presence_color",
-      "type": "threshold",
-      "domain": [1, 2],
+      "type": "ordinal",
+      "domain": ["0", "1", "2 or more"],
       "range": { "scheme": "redyellowgreen" }
     }
   ],
@@ -197,7 +202,7 @@
             "signal": "{'title': datum.stop_name, 'Lines': datum.line, 'Complex': datum.complex_name, 'Ridership Total (2024)': format(datum.ridership_total, ','), 'Number of Artworks': datum.num_art_pieces}"
           },
           "fill": {
-            "field": "num_art_pieces",
+            "field": "art_presence",
             "scale": "art_presence_color"
           },
           "size": {
