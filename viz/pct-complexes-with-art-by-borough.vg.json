@@ -1,8 +1,8 @@
 {
   "$schema": "https://vega.github.io/schema/vega/v5.json",
-  "width": 550,
+  "width": 500,
   "height": 200,
-  "title": "Complexes with highest riders per artwork",
+  "title": "Percent of Complexes with Art, by Borough",
   "autosize": "fit",
   "data": [
     {
@@ -36,30 +36,28 @@
         },
         {
           "type": "aggregate",
-          "fields": ["ridership_total_per_stop", "art_pieces_per_stop"],
-          "ops": ["max", "sum"],
-          "as": ["ridership_total", "latest_num_art_pieces"],
-          "groupby": ["complex_id", "complex_name", "borough"]
-        }
-      ]
-    },
-    {
-      "name": "top5_needing_art",
-      "source": "art_ridership",
-      "transform": [
-        { "type": "filter", "expr": "datum.latest_num_art_pieces > 0" },
+          "fields": ["art_pieces_per_stop"],
+          "ops": ["sum"],
+          "as": ["art_pieces_per_complex"],
+          "groupby": ["complex_id", "borough"]
+        },
         {
           "type": "formula",
-          "expr": "datum.ridership_total / datum.latest_num_art_pieces",
-          "as": "ratio"
+          "expr": "datum.art_pieces_per_complex > 0 ? 1 : 0",
+          "as": "complex_art_piece_flag"
         },
         {
-          "type": "window",
-          "ops": ["row_number"],
-          "as": ["rank"],
-          "sort": { "field": "ratio", "order": "descending" }
+          "type": "aggregate",
+          "fields": ["complex_art_piece_flag", "complex_id"],
+          "ops": ["sum", "count"],
+          "as": ["num_complexes_with_art", "num_complexes"],
+          "groupby": ["borough"]
         },
-        { "type": "filter", "expr": "datum.rank <= 5" }
+        {
+          "type": "formula",
+          "expr": "datum.num_complexes_with_art / datum.num_complexes",
+          "as": "pct_complexes_with_artwork"
+        }
       ]
     }
   ],
@@ -68,10 +66,10 @@
       "name": "yscale",
       "type": "band",
       "domain": {
-        "data": "top5_needing_art",
-        "field": "complex_name",
+        "data": "art_ridership",
+        "field": "borough",
         "sort": {
-          "field": "ratio",
+          "field": "pct_complexes_with_artwork",
           "order": "descending",
           "op": "sum"
         }
@@ -83,39 +81,32 @@
     {
       "name": "xscale",
       "type": "linear",
-      "domain": { "data": "top5_needing_art", "field": "ratio" },
+      "domain": {
+        "data": "art_ridership",
+        "field": "pct_complexes_with_artwork"
+      },
       "range": "width",
       "nice": true,
       "round": true
-    },
-    {
-      "name": "color",
-      "type": "ordinal",
-      "domain": ["Brooklyn", "Bronx", "Manhattan", "Staten Island", "Queens"],
-      "range": { "scheme": "category10" }
     }
   ],
   "axes": [
-    { "orient": "left", "scale": "yscale", "labelLimit": 80 },
-    { "orient": "bottom", "scale": "xscale", "format": "s" }
-  ],
-  "legends": [
-    { "fill": "color", "title": "Borough", "orient": "bottom-right" }
+    { "orient": "left", "scale": "yscale" },
+    { "orient": "bottom", "scale": "xscale", "format": "%" }
   ],
   "marks": [
     {
       "name": "Bars",
       "type": "rect",
-      "from": { "data": "top5_needing_art" },
+      "from": { "data": "art_ridership" },
       "encode": {
         "enter": {
-          "y": { "scale": "yscale", "field": "complex_name" },
+          "y": { "scale": "yscale", "field": "borough" },
           "height": { "scale": "yscale", "band": 1 },
-          "fill": { "scale": "color", "field": "borough" },
           "x": { "scale": "xscale", "value": 0 },
-          "x2": { "scale": "xscale", "field": "ratio" },
+          "x2": { "scale": "xscale", "field": "pct_complexes_with_artwork" },
           "tooltip": {
-            "signal": "{'title': datum.complex_name, 'Borough': datum.borough, 'Ridership': format(datum.ridership_total, ','), 'Number of Artworks': datum.latest_num_art_pieces, 'Riders per artwork': format(datum.ratio, ',.2f')}"
+            "signal": "{title: datum.borough, 'Number of Complexes with Art': datum.num_complexes_with_art, 'Number of Complexes': datum.num_complexes, 'Percentage of Complexes with Artwork': format(datum.pct_complexes_with_artwork, '.2%')}"
           }
         }
       }

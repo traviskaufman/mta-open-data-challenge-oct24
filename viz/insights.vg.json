@@ -1,13 +1,13 @@
 {
   "$schema": "https://vega.github.io/schema/vega/v5.json",
-  "width": 500,
+  "width": 550,
   "height": 200,
   "title": "Busiest complexes with no art, by ridership",
   "autosize": "fit",
   "data": [
     {
       "name": "art_ridership",
-      "url": "https://gist.githubusercontent.com/traviskaufman/e33677d3dd62d16f9f4c8c08dd290f20/raw/a9a8a982b3d617cd7acbf3cf1e35deb2422508be/art_ridership.csv",
+      "url": "https://gist.githubusercontent.com/traviskaufman/e33677d3dd62d16f9f4c8c08dd290f20/raw/5347ce87a3cdcf683dc47210f225d5ace68ede1d/art_ridership.csv",
       "format": {
         "type": "csv",
         "parse": {
@@ -89,16 +89,20 @@
     {
       "name": "color",
       "type": "ordinal",
-      "domain": ["Bk", "Bx", "M", "SI", "Q"],
+      "domain": ["Brooklyn", "Bronx", "Manhattan", "Staten Island", "Queens"],
       "range": { "scheme": "category10" }
     }
   ],
   "axes": [
-    { "orient": "left", "scale": "yscale" },
+    { "orient": "left", "scale": "yscale", "labelLimit": 80 },
     { "orient": "bottom", "scale": "xscale", "format": "s" }
   ],
   "legends": [
-    { "fill": "color", "title": "Borough", "orient": "bottom-right" }
+    {
+      "fill": "color",
+      "title": "Borough",
+      "orient": "bottom-right"
+    }
   ],
   "marks": [
     {

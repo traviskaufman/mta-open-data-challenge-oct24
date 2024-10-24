@@ -1,0 +1,140 @@
+{
+  "$schema": "https://vega.github.io/schema/vega/v5.json",
+  "width": 500,
+  "height": 200,
+  "title": "Ridership vs. Artworks, by Borough",
+  "autosize": "fit",
+  "data": [
+    {
+      "name": "art_ridership",
+      "url": "https://gist.githubusercontent.com/traviskaufman/e33677d3dd62d16f9f4c8c08dd290f20/raw/5347ce87a3cdcf683dc47210f225d5ace68ede1d/art_ridership.csv",
+      "format": {
+        "type": "csv",
+        "parse": {
+          "date": "date:%Y-%m-%d",
+          "latitude": "number",
+          "longitude": "number",
+          "num_art_pieces": "number",
+          "ridership": "number"
+        },
+        "delimiter": ","
+      },
+      "transform": [
+        { "type": "filter", "expr": "year(datum.date) == 2024" },
+        {
+          "type": "aggregate",
+          "fields": ["ridership", "num_art_pieces"],
+          "ops": ["sum", "max"],
+          "as": ["ridership_total_per_stop", "art_pieces_per_stop"],
+          "groupby": [
+            "complex_id",
+            "complex_name",
+            "stop_name",
+            "line",
+            "borough"
+          ]
+        },
+        {
+          "type": "aggregate",
+          "fields": ["ridership_total_per_stop", "art_pieces_per_stop"],
+          "ops": ["max", "sum"],
+          "as": ["ridership_total", "Number of Artworks"],
+          "groupby": ["borough"]
+        },
+        {
+          "type": "formula",
+          "expr": "datum.ridership_total / 1e5",
+          "as": "Ridership Total (per 100k)"
+        },
+        {
+          "type": "formula",
+          "expr": "datum.ridership_total / datum['Number of Artworks']",
+          "as": "riders_per_artwork"
+        },
+        {
+          "type": "fold",
+          "fields": ["Ridership Total (per 100k)", "Number of Artworks"],
+          "as": ["series", "value"]
+        }
+      ]
+    }
+  ],
+  "scales": [
+    {
+      "name": "yscale",
+      "type": "band",
+      "domain": {
+        "data": "art_ridership",
+        "field": "borough",
+        "sort": {
+          "field": "riders_per_artwork",
+          "order": "descending",
+          "op": "sum"
+        }
+      },
+      "range": "height",
+      "padding": 0.2,
+      "round": true
+    },
+    {
+      "name": "xscale",
+      "type": "linear",
+      "domain": { "data": "art_ridership", "field": "value" },
+      "range": "width",
+      "nice": true,
+      "round": true
+    },
+    {
+      "name": "color",
+      "type": "ordinal",
+      "domain": { "data": "art_ridership", "field": "series" },
+      "range": { "scheme": "category10" }
+    }
+  ],
+  "axes": [
+    { "orient": "left", "scale": "yscale" },
+    { "orient": "bottom", "scale": "xscale", "format": "s" }
+  ],
+  "legends": [{ "fill": "color", "orient": "bottom-right" }],
+  "marks": [
+    {
+      "type": "group",
+      "from": {
+        "facet": {
+          "data": "art_ridership",
+          "name": "facet",
+          "groupby": "borough"
+        }
+      },
+      "encode": { "enter": { "y": { "scale": "yscale", "field": "borough" } } },
+      "signals": [{ "name": "height", "update": "bandwidth('yscale')" }],
+      "scales": [
+        {
+          "name": "pos",
+          "type": "band",
+          "range": "height",
+          "domain": { "data": "facet", "field": "series" }
+        }
+      ],
+      "marks": [
+        {
+          "name": "Bars",
+          "type": "rect",
+          "from": { "data": "facet" },
+          "encode": {
+            "enter": {
+              "y": { "scale": "pos", "field": "series" },
+              "height": { "scale": "pos", "band": 1 },
+              "x": { "scale": "xscale", "value": 0 },
+              "x2": { "scale": "xscale", "field": "value" },
+              "fill": { "scale": "color", "field": "series" },
+              "tooltip": {
+                "signal": "{title: datum.borough, 'Total Ridership': format(datum.ridership_total, ','), 'Number of Artworks': datum['Number of Artworks'], 'Riders per Artwork': !isFinite(datum.riders_per_artwork) ? '(n/a)' : format(datum.riders_per_artwork, ',.2f')}"
+              }
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

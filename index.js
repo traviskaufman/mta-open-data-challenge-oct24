@@ -7,6 +7,8 @@ import Vsi from "vega-spec-injector";
 import debounce from "debounce";
 
 import mapSpec from "./viz/map.vg.json";
+import pctComplexesWithArtByBoroughSpec from "./viz/pct-complexes-with-art-by-borough.vg.json";
+import artByBoroughsSpec from "./viz/art-by-boroughs.vg.json";
 import insightsSpec from "./viz/insights.vg.json";
 import insights2Spec from "./viz/insights2.vg.json";
 
@@ -372,6 +374,11 @@ async function main() {
   layer.addTo(map);
 
   await Promise.all([
+    vegaEmbed(
+      "#pctComplexesWithArtByBorough",
+      pctComplexesWithArtByBoroughSpec
+    ),
+    vegaEmbed("#artByBoroughs", artByBoroughsSpec),
     vegaEmbed("#insights", insightsSpec),
     vegaEmbed("#insights2", insights2Spec),
   ]);

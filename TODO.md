@@ -1,5 +1,2 @@
+- [ ] Switch out stops with complexes
 - [ ] Link artwork
-
-P2
-
-- [ ] Reconcile multiple stations

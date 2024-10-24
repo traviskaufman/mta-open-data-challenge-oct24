@@ -73,7 +73,7 @@ ss AS (
         "date",
         station_complex_id,
         ARBITRARY(station_complex) AS station_complex,
-        ARBITRARY(borough),
+        ARBITRARY(borough) AS borough,
         SUM(ridership) AS ridership,
         SUM(transfers) AS transfers
     FROM
@@ -87,7 +87,7 @@ SELECT
     ridership_data.station_complex AS complex_name,
     art_data.stop_name AS stop_name,
     art_data.line AS line,
-    art_data.borough AS borough,
+    ridership_data.borough AS borough,
     ARBITRARY(art_data.latitude) AS latitude,
     ARBITRARY(art_data.longitude) AS longitude,
     SUM(art_data.num_art_pieces) AS num_art_pieces,
