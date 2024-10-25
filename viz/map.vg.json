@@ -16,30 +16,21 @@
     },
     {
       "name": "art_ridership",
-      "url": "https://gist.githubusercontent.com/traviskaufman/e33677d3dd62d16f9f4c8c08dd290f20/raw/5347ce87a3cdcf683dc47210f225d5ace68ede1d/art_ridership.csv",
+      "url": "https://gist.githubusercontent.com/traviskaufman/e33677d3dd62d16f9f4c8c08dd290f20/raw/c51fd2238147bcee4f58401daa0636272a4f655e/art_ridership_complexes_only_2024.csv",
       "format": {
         "type": "csv",
         "parse": {
-          "date": "date:%Y-%m-%d",
-          "latitude": "number",
-          "longitude": "number",
+          "complex_latitude": "number",
+          "complex_longitude": "number",
           "num_art_pieces": "number",
           "ridership": "number"
         }
       },
       "transform": [
-        { "type": "filter", "expr": "year(datum.date) == 2024" },
         {
           "type": "geopoint",
           "projection": "projection",
-          "fields": ["longitude", "latitude"]
-        },
-        {
-          "type": "joinaggregate",
-          "fields": ["ridership"],
-          "ops": ["sum"],
-          "as": ["ridership_total"],
-          "groupby": ["stop_name", "line", "borough"]
+          "fields": ["complex_longitude", "complex_latitude"]
         },
         {
           "type": "formula",
@@ -133,7 +124,7 @@
     {
       "name": "ridership_size",
       "type": "linear",
-      "domain": { "data": "art_ridership", "field": "ridership_total" },
+      "domain": { "data": "art_ridership", "field": "ridership" },
       "range": [25, 500]
     },
     {
@@ -199,14 +190,14 @@
           "stroke": { "value": "#666" },
           "strokeWidth": { "value": 1 },
           "tooltip": {
-            "signal": "{'title': datum.stop_name, 'Lines': datum.line, 'Complex': datum.complex_name, 'Ridership Total (2024)': format(datum.ridership_total, ','), 'Number of Artworks': datum.num_art_pieces}"
+            "signal": "{'title': datum.station_complex, 'Ridership (Jan-Sep 2024)': format(datum.ridership, ','), 'Number of Artworks': datum.num_art_pieces}"
           },
           "fill": {
             "field": "art_presence",
             "scale": "art_presence_color"
           },
           "size": {
-            "field": "ridership_total",
+            "field": "ridership",
             "scale": "ridership_size"
           }
         },

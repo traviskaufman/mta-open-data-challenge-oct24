@@ -2,58 +2,41 @@
   "$schema": "https://vega.github.io/schema/vega/v5.json",
   "width": 500,
   "height": 200,
-  "title": "Ridership vs. Artworks, by Borough",
+  "title": "Ridership vs. Artworks, by Borough (Jan-Sep 2024)",
   "autosize": "fit",
   "data": [
     {
       "name": "art_ridership",
-      "url": "https://gist.githubusercontent.com/traviskaufman/e33677d3dd62d16f9f4c8c08dd290f20/raw/5347ce87a3cdcf683dc47210f225d5ace68ede1d/art_ridership.csv",
+      "url": "https://gist.githubusercontent.com/traviskaufman/e33677d3dd62d16f9f4c8c08dd290f20/raw/c51fd2238147bcee4f58401daa0636272a4f655e/art_ridership_complexes_only_2024.csv",
       "format": {
         "type": "csv",
         "parse": {
-          "date": "date:%Y-%m-%d",
-          "latitude": "number",
-          "longitude": "number",
           "num_art_pieces": "number",
           "ridership": "number"
         },
         "delimiter": ","
       },
       "transform": [
-        { "type": "filter", "expr": "year(datum.date) == 2024" },
         {
           "type": "aggregate",
           "fields": ["ridership", "num_art_pieces"],
-          "ops": ["sum", "max"],
-          "as": ["ridership_total_per_stop", "art_pieces_per_stop"],
-          "groupby": [
-            "complex_id",
-            "complex_name",
-            "stop_name",
-            "line",
-            "borough"
-          ]
-        },
-        {
-          "type": "aggregate",
-          "fields": ["ridership_total_per_stop", "art_pieces_per_stop"],
-          "ops": ["max", "sum"],
-          "as": ["ridership_total", "Number of Artworks"],
-          "groupby": ["borough"]
+          "ops": ["sum", "sum"],
+          "groupby": ["borough"],
+          "as": ["Ridership Total", "Number of Artworks"]
         },
         {
           "type": "formula",
-          "expr": "datum.ridership_total / 1e5",
-          "as": "Ridership Total (per 100k)"
+          "expr": "datum['Ridership Total'] / 1e6",
+          "as": "Ridership Total (millions)"
         },
         {
           "type": "formula",
-          "expr": "datum.ridership_total / datum['Number of Artworks']",
+          "expr": "datum.borough_ridership / datum.num_art_pieces",
           "as": "riders_per_artwork"
         },
         {
           "type": "fold",
-          "fields": ["Ridership Total (per 100k)", "Number of Artworks"],
+          "fields": ["Ridership Total (millions)", "Number of Artworks"],
           "as": ["series", "value"]
         }
       ]
@@ -129,7 +112,7 @@
               "x2": { "scale": "xscale", "field": "value" },
               "fill": { "scale": "color", "field": "series" },
               "tooltip": {
-                "signal": "{title: datum.borough, 'Total Ridership': format(datum.ridership_total, ','), 'Number of Artworks': datum['Number of Artworks'], 'Riders per Artwork': !isFinite(datum.riders_per_artwork) ? '(n/a)' : format(datum.riders_per_artwork, ',.2f')}"
+                "signal": "{title: datum.borough, 'Metric': datum.series, 'Value': datum.value}"
               }
             }
           }
