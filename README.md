@@ -19,7 +19,9 @@ To aid in rendering our map, we use the following GeoJSON from NYC OpenData:
 - [Borough Boundaries](https://data.cityofnewyork.us/City-Government/Borough-Boundaries/tqmj-j8zm)
 - [Subway Lines](https://data.cityofnewyork.us/Transportation/Subway-Lines/3qz8-muuu)
 
-All data was retrieved on September 30th, 2024.
+All data was retrieved on September 30th, 2024, and goes until Sep 1st, 2024.
+
+Furthermore, we custom-curated a mapping between each piece of art and the subway complex it is located in. This is available for view at: https://docs.google.com/spreadsheets/d/1IEqPQyu5o2yMcwpfOMNf-xj3ND0kjNEjm8WQ2J4qLG0/edit?usp=sharing
 
 ## Installation
 
@@ -50,6 +52,7 @@ You can also run `npm run dev` to start a development server in case you would l
 There are scripts checked into the `scripts/` directory in case you would like to recreate the data used within this analysis. These scripts assume you are using [DuckDB](https://duckdb.org/), but each contains an accompanying SQL file that should be easily adaptable to your own engine.
 
 1. `mkdir -p data/`
+1. Copy the Google Sheet linked above to `data/art_stations_to_complex_ids.csv - prod.csv`
 1. Copy the CSV for MTA Permanent Art Catalog to `data/MTA_Permanent_Art_Catalog__Beginning_1980_20240930.csv`
 1. Copy the CSV for MTA Subway Hourly Ridership to `data/MTA_Subway_Hourly_Ridership__Beginning_February_2022.csv`
 1. Copy the CSV for MTA Subway Stations to `data/data/MTA_Subway_Stations_20240930.csv`

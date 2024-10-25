@@ -33,31 +33,73 @@
           <div id="map" class="h-[500px]"></div>
           <figcaption class="mt-1 text-sm text-gray-500 text-opacity-80">Ridership (larger circles) vs. public artworks (color-coded). Data courtesy of <a href="https://github.com/traviskaufman/mta-open-data-challenge-oct24/tree/main?tab=readme-ov-file#data-attribution" target="_blank" class="text-blue-400 hover:text-blue-600">MTA + NYC Open Data</a></figcaption>
         </div>
-        <p class="sr-only">A Visualization of a Map of New York City, showing each subway station and its size relative to ridership in 2024, as well as whether or not it has any artwork</p>
+        <p class="sr-only">A Visualization of a Map of New York City, showing each subway complex and its size relative to ridership in 2024, as well as whether or not it has any artwork</p>
       </figure>
       <article class="lg:col-span-2 lg:col-start-1 lg:row-start-2 lg:mx-auto lg:grid lg:w-full lg:max-w-7xl lg:grid-cols-2 lg:gap-x-8 lg:px-8">
         <div class="lg:pr-4">
           <div class="max-w-xl text-base leading-7 text-gray-700 lg:max-w-lg">
-            <p>Where is the art in the subway, and where isn’t it? More than half of New York City subway stations have no artwork, including some of the busiest stations in the city. Access to MTA’s “diverse and beautiful underground art museum” only corresponds loosely with ridership numbers. We can see many opportunities to more evenly arrange the distribution of art across the system.</p>
-            <p class="mt-5">The borough of Queens is underserved, with a total number of 128,509,366 rides in 2024, but only 35% of subway stations having at least one piece of artwork. Contrast that to Manhattan, where 60% of subway stations have art.</p>
+            <p>
+              Where is the art in the subway, and where isn’t it?
+              More than half of New York City subway complexes have no artwork,
+              including some of the busiest in the city.
+              Access to MTA’s “diverse and beautiful underground art museum” only corresponds loosely
+              with ridership numbers. We can see many opportunities to more evenly arrange the distribution
+              of art across the system.
+            </p>
+            <p class="mt-5">
+              The borough of Queens is underserved, with a total number of 128,509,366 rides so far
+              in 2024, but only 50% of complexes having at least one piece of artwork.
+              Contrast that to Manhattan, Brooklyn, and the Bronx, where 60%, 62%, 69% of subway
+              complexes have art, respectively.
+            </p>
             <figure class="mt-3">
               <div id="pctComplexesWithArtByBorough"></div>
               <p class="sr-only">A bar chart showing the breakdown of percentages of complexes with art across boroughs</p>
             </aside>
             <figure class="mt-3">
               <div id="artByBoroughs"></div>
-              <p class="sr-only">A bar chart showing the breakdown of art ridership compared to number of art pieces for each borough</p>
+              <figcaption class="sr-only">
+                A bar chart showing the breakdown of art ridership compared to number of art pieces for each borough
+              </figcaption>
             </aside>
-            <p class="mt-5">Some of the busiest stations in the city with no artwork, such as 74-Broadway (7)/Jackson Hts-Roosevelt Av (E,F,M,R), are in Queens.</p>
+            <p class="mt-5">
+              Most of the busiest complexes in the city with no artwork are in Manhattan.
+              47-50 Sts-Rockefeller Center is the complex in most need of art, followed by
+              W 4 St-Washington Sq, and 14 St/6 Av. Three complexes in Queens also made the top 10,
+              but have lower ridership numbers than the Manhattan complexes mentioned above.
+            </p>
             <figure class="mt-3">
               <div id="insights"></div>
-              <p class="sr-only">A bar chart showing the top 5 stations by Ridership with No Art</p>
+              <figcaption class="sr-only">
+                A bar chart showing the top 5 complexes by Ridership with No Art
+              </figcaption>
             </aside>
-            <p class="mt-5">Meanwhile, because Manhattan has such high ridership numbers, art must be shared across many subway riders. Among subway stops with at least one piece of artwork, the top 4 stations in the city with the lowest ratio of artwork to rider are all in Manhattan. In some cases, where stations contain multiple stops, only one of the stops will contain artwork.</p>
+            <p class="mt-5">
+              Meanwhile, because Manhattan has such high ridership numbers, art must be shared across many
+              subway riders. Among subway stops with at least one piece of artwork, 8 out of the top 10
+              complexes in the city with the lowest ratios of artwork to rider are in Manhattan.
+              Union Square in particular stands out as a great opportunity to introduce additional art pieces.
+            </p>
             <figure class="mt-3">
               <div id="insights2"></div>
-              <p class="sr-only">A bar chart showing the top 5 stations by the lowest art / ridershp ratio</p>
+              <figcaption class="sr-only">
+                A bar chart showing the top 5 complexes by the lowest art / ridershp ratio
+              </figcaption>
             </figure>
+            <h2 class="mt-16 text-2xl font-bold tracking-tight text-gray-900">
+              Biggest Opportunities
+            </h2>
+            <ul role="list" class="mt-8 space-y-6 text-gray-600">
+              <li>
+                <strong class="font-semibold text-gray-900">Introduce artwork</strong> into 47-50 Sts-Rockefeller Center, W 4 St-Washington Sq, and 14 St/6 Av
+              </li>
+              <li>
+                <strong class="font-semibold text-gray-900">Add additional art</strong> to Union Square
+              </li>
+              <li>
+                <strong class="font-semibold text-gray-900">Engage with Queens' artist communities</strong> to promote more artwork across the borough
+              </li>
+            </ul>
           </div>
         </div>
       </article>
