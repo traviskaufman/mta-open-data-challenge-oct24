@@ -2,7 +2,7 @@
   "$schema": "https://vega.github.io/schema/vega/v5.json",
   "width": 500,
   "height": 200,
-  "title": "Ridership vs. Artworks, by Borough (Jan-Sep 2024)",
+  "title": "Ridership vs. Artworks, by Borough",
   "autosize": "fit",
   "data": [
     {

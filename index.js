@@ -1,7 +1,6 @@
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 import * as vega from "vega";
-import vegaEmbed from "vega-embed";
 import vegaTooltip from "vega-tooltip";
 import Vsi from "vega-spec-injector";
 import debounce from "debounce";
@@ -11,6 +10,17 @@ import pctComplexesWithArtByBoroughSpec from "./viz/pct-complexes-with-art-by-bo
 import artByBoroughsSpec from "./viz/art-by-boroughs.vg.json";
 import insightsSpec from "./viz/insights.vg.json";
 import insights2Spec from "./viz/insights2.vg.json";
+
+async function vegaEmbed(selector, spec) {
+  const runtime = vega.parse(spec);
+  const view = new vega.View(runtime, {
+    renderer: "svg",
+    container: selector,
+    hover: true,
+  });
+  vegaTooltip(view);
+  return view.runAsync();
+}
 
 async function main() {
   // See: https://github.com/nyurik/leaflet-vega/blob/main/src/VegaLayer.js
