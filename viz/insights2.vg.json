@@ -2,55 +2,29 @@
   "$schema": "https://vega.github.io/schema/vega/v5.json",
   "width": 550,
   "height": 200,
-  "title": "Complexes with highest riders per artwork",
+  "title": "Ridership vs. Artworks, by Complex",
   "autosize": "fit",
   "data": [
     {
       "name": "art_ridership",
-      "url": "https://gist.githubusercontent.com/traviskaufman/e33677d3dd62d16f9f4c8c08dd290f20/raw/5347ce87a3cdcf683dc47210f225d5ace68ede1d/art_ridership.csv",
+      "url": "https://gist.githubusercontent.com/traviskaufman/e33677d3dd62d16f9f4c8c08dd290f20/raw/faf338da82f8fa8c492008763a11729f04b9b734/art_ridership_complexes_only_2024.csv",
       "format": {
         "type": "csv",
         "parse": {
-          "date": "date:%Y-%m-%d",
-          "latitude": "number",
-          "longitude": "number",
           "num_art_pieces": "number",
           "ridership": "number"
         },
         "delimiter": ","
-      },
-      "transform": [
-        { "type": "filter", "expr": "year(datum.date) == 2024" },
-        {
-          "type": "aggregate",
-          "fields": ["ridership", "num_art_pieces"],
-          "ops": ["sum", "max"],
-          "as": ["ridership_total_per_stop", "art_pieces_per_stop"],
-          "groupby": [
-            "complex_id",
-            "complex_name",
-            "stop_name",
-            "line",
-            "borough"
-          ]
-        },
-        {
-          "type": "aggregate",
-          "fields": ["ridership_total_per_stop", "art_pieces_per_stop"],
-          "ops": ["max", "sum"],
-          "as": ["ridership_total", "latest_num_art_pieces"],
-          "groupby": ["complex_id", "complex_name", "borough"]
-        }
-      ]
+      }
     },
     {
-      "name": "top5_needing_art",
+      "name": "topn_needing_art",
       "source": "art_ridership",
       "transform": [
-        { "type": "filter", "expr": "datum.latest_num_art_pieces > 0" },
+        { "type": "filter", "expr": "datum.num_art_pieces > 0" },
         {
           "type": "formula",
-          "expr": "datum.ridership_total / datum.latest_num_art_pieces",
+          "expr": "datum.ridership / datum.num_art_pieces",
           "as": "ratio"
         },
         {
@@ -59,7 +33,7 @@
           "as": ["rank"],
           "sort": { "field": "ratio", "order": "descending" }
         },
-        { "type": "filter", "expr": "datum.rank <= 5" }
+        { "type": "filter", "expr": "datum.rank <= 10" }
       ]
     }
   ],
@@ -68,8 +42,8 @@
       "name": "yscale",
       "type": "band",
       "domain": {
-        "data": "top5_needing_art",
-        "field": "complex_name",
+        "data": "topn_needing_art",
+        "field": "station_complex",
         "sort": {
           "field": "ratio",
           "order": "descending",
@@ -83,7 +57,7 @@
     {
       "name": "xscale",
       "type": "linear",
-      "domain": { "data": "top5_needing_art", "field": "ratio" },
+      "domain": { "data": "topn_needing_art", "field": "ratio" },
       "range": "width",
       "nice": true,
       "round": true
@@ -91,7 +65,7 @@
     {
       "name": "color",
       "type": "ordinal",
-      "domain": ["Brooklyn", "Bronx", "Manhattan", "Staten Island", "Queens"],
+      "domain": ["Manhattan", "Queens"],
       "range": { "scheme": "category10" }
     }
   ],
@@ -106,16 +80,16 @@
     {
       "name": "Bars",
       "type": "rect",
-      "from": { "data": "top5_needing_art" },
+      "from": { "data": "topn_needing_art" },
       "encode": {
         "enter": {
-          "y": { "scale": "yscale", "field": "complex_name" },
+          "y": { "scale": "yscale", "field": "station_complex" },
           "height": { "scale": "yscale", "band": 1 },
           "fill": { "scale": "color", "field": "borough" },
           "x": { "scale": "xscale", "value": 0 },
           "x2": { "scale": "xscale", "field": "ratio" },
           "tooltip": {
-            "signal": "{'title': datum.complex_name, 'Borough': datum.borough, 'Ridership': format(datum.ridership_total, ','), 'Number of Artworks': datum.latest_num_art_pieces, 'Riders per artwork': format(datum.ratio, ',.2f')}"
+            "signal": "{'title': datum.station_complex, 'Borough': datum.borough, 'Ridership': format(datum.ridership, ','), 'Number of Artworks': datum.num_art_pieces, 'Riders per artwork': format(datum.ratio, ',.2f')}"
           }
         }
       }

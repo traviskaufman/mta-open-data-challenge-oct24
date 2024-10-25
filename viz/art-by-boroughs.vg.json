@@ -7,7 +7,7 @@
   "data": [
     {
       "name": "art_ridership",
-      "url": "https://gist.githubusercontent.com/traviskaufman/e33677d3dd62d16f9f4c8c08dd290f20/raw/c51fd2238147bcee4f58401daa0636272a4f655e/art_ridership_complexes_only_2024.csv",
+      "url": "https://gist.githubusercontent.com/traviskaufman/e33677d3dd62d16f9f4c8c08dd290f20/raw/faf338da82f8fa8c492008763a11729f04b9b734/art_ridership_complexes_only_2024.csv",
       "format": {
         "type": "csv",
         "parse": {
@@ -31,7 +31,7 @@
         },
         {
           "type": "formula",
-          "expr": "datum.borough_ridership / datum.num_art_pieces",
+          "expr": "datum['Ridership Total'] / datum['Number of Artworks']",
           "as": "riders_per_artwork"
         },
         {

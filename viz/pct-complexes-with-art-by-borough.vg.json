@@ -7,43 +7,19 @@
   "data": [
     {
       "name": "art_ridership",
-      "url": "https://gist.githubusercontent.com/traviskaufman/e33677d3dd62d16f9f4c8c08dd290f20/raw/5347ce87a3cdcf683dc47210f225d5ace68ede1d/art_ridership.csv",
+      "url": "https://gist.githubusercontent.com/traviskaufman/e33677d3dd62d16f9f4c8c08dd290f20/raw/faf338da82f8fa8c492008763a11729f04b9b734/art_ridership_complexes_only_2024.csv",
       "format": {
         "type": "csv",
         "parse": {
-          "date": "date:%Y-%m-%d",
-          "latitude": "number",
-          "longitude": "number",
           "num_art_pieces": "number",
           "ridership": "number"
         },
         "delimiter": ","
       },
       "transform": [
-        { "type": "filter", "expr": "year(datum.date) == 2024" },
-        {
-          "type": "aggregate",
-          "fields": ["ridership", "num_art_pieces"],
-          "ops": ["sum", "max"],
-          "as": ["ridership_total_per_stop", "art_pieces_per_stop"],
-          "groupby": [
-            "complex_id",
-            "complex_name",
-            "stop_name",
-            "line",
-            "borough"
-          ]
-        },
-        {
-          "type": "aggregate",
-          "fields": ["art_pieces_per_stop"],
-          "ops": ["sum"],
-          "as": ["art_pieces_per_complex"],
-          "groupby": ["complex_id", "borough"]
-        },
         {
           "type": "formula",
-          "expr": "datum.art_pieces_per_complex > 0 ? 1 : 0",
+          "expr": "datum.num_art_pieces > 0 ? 1 : 0",
           "as": "complex_art_piece_flag"
         },
         {

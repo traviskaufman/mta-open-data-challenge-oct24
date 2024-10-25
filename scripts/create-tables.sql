@@ -5,6 +5,8 @@ CREATE TABLE IF NOT EXISTS subway_stations AS FROM './data/MTA_Subway_Stations_2
 
 CREATE TABLE IF NOT EXISTS ridership AS FROM read_csv('./data/MTA_Subway_Hourly_Ridership__Beginning_February_2022.csv', types={'station_complex_id': 'VARCHAR'});
 
+CREATE TABLE IF NOT EXISTS art_complex_mappings AS FROM read_csv('data/art_stations_to_complex_ids.csv - prod.csv', types={'complex_id': 'VARCHAR'});
+
 CREATE TABLE IF NOT EXISTS ridership_monthly AS (
 	SELECT
 		CAST(DATE_TRUNC('month', transit_timestamp) AS DATE) as "date",
